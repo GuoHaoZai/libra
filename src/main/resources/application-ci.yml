@@ -1,0 +1,37 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ci?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 1234
+  jpa:
+    database: mysql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 8081
+
+jwt:
+  token:
+    secret: nuc_software
+    #一周的有效
+    expire: 604800000
+
+management:
+  security:
+    enable: ture
+
+
+sentry:
+  dsn: https://afe0d8b88e904639a7df88e5ae95d856:dbecbf917f444365af516311561e8eb3@sentry.io/288602

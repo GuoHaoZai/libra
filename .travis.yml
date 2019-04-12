@@ -1,0 +1,34 @@
+language: jvm
+
+jdk: oraclejdk8
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+services:
+  - mysql
+  - rabbitmq
+
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('1234') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -p1234
+  - sudo service mysql restart
+  - mysql -u root -p1234 < ci.sql
+  - chmod +x gradlew
+
+script:
+  - ./gradlew build
+  - ./gradlew codeCoverageReport
+
+after_success:
+  - codecov
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  webhooks:
+    - https://outlook.office.com/webhook/35c21aff-9cde-45a2-833a-d0aef9e7ca4a@dea6e02c-702b-45bc-9c84-c62f18599043/TravisCI/c1ff5b3361bc42a6a962f7af8ce99a78/1cdb000a-6c7b-49f2-885f-de5cf9e238cf
